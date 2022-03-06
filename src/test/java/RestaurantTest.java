@@ -2,6 +2,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.spy;
@@ -60,8 +62,21 @@ class RestaurantTest {
 
     @Test
     public void removing_item_that_does_not_exist_should_throw_exception() {
-        assertThrows(itemNotFoundException.class,
-                () -> restaurant.removeFromMenu("French fries"));
+        assertThrows(itemNotFoundException.class, () -> restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    @Test
+    public void order_total_when_no_chosen_items_should_return_zero() {
+        List<String> orderItems = new ArrayList<String>();
+        assertEquals(0, restaurant.getOrderTotal(orderItems));
+    }
+
+    @Test
+    public void chosen_items_from_menu_should_return_total() {
+        List<String> orderItems = new ArrayList<String>();
+        orderItems.add("Sweet corn soup");
+        orderItems.add("Vegetable lasagne");
+        assertEquals(388, restaurant.getOrderTotal(orderItems));
+    }
 }
